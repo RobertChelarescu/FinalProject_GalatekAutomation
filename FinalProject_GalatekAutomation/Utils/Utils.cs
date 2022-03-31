@@ -43,13 +43,6 @@ namespace FinalProject_GalatekAutomation.Utils
             }
         }
 
-        /// <summary>
-        /// The method creates a screenshot based on the current date and saves it into a folder defined by the tester
-        /// </summary>
-        /// <param name="driver"> The WebDriver instance / browser from which the screenshot will be taken</param>
-        /// <param name="path"> The path where the screenshot will be saved </param>
-        /// <param name="fileName"> The base file name that will have appended the date to have unique files</param>
-        /// <param name="format"> Specify the image file format, example: JPG</param>
         public static void TakeScreenshotWithDate(IWebDriver driver, string path, string fileName, ScreenshotImageFormat format)
         {
             DirectoryInfo validation = new DirectoryInfo(path);
@@ -82,11 +75,6 @@ namespace FinalProject_GalatekAutomation.Utils
             }
         }
 
-        /// <summary>
-        /// Converts a config file that has lines like key=value into a Dictionary with key and value
-        /// </summary>
-        /// <param name="configFilePath"> The path of the config file</param>
-        /// <returns>A dictionary with a key value pair of type string and string representing the lines in the config file</returns>
         public static Dictionary<string, string> ReadConfig(string configFilePath)
         {
             var configData = new Dictionary<string, string>();
@@ -124,7 +112,7 @@ namespace FinalProject_GalatekAutomation.Utils
                     {
                         string[] rowValues = csvReader.ReadFields();
 
-                        // this for loop can be skipped, it is used for sanitisation purposes
+                       
                         for (int i = 0; i < rowValues.Length; i++)
                         {
                             if (rowValues[i] == "")
@@ -144,81 +132,7 @@ namespace FinalProject_GalatekAutomation.Utils
             return dataTable;
         }
 
-        public static DataTable GetDataTableFromExcel(string excelPath)
-        {
-            DataTable dataTable = new DataTable();
-            XSSFWorkbook wb;
-            XSSFSheet sh;
-            string sheetName;
-            using (var fs = new FileStream(excelPath, FileMode.Open, FileAccess.Read))
-            {
-                wb = new XSSFWorkbook(fs);
-                sheetName = wb.GetSheetAt(0).SheetName;
-            }
-
-            dataTable.Columns.Clear();
-            dataTable.Rows.Clear();
-
-            sh = (XSSFSheet)wb.GetSheet(sheetName);
-            int i = 0;
-            while (sh.GetRow(i) != null)
-            {
-                if (dataTable.Columns.Count < sh.GetRow(i).Cells.Count)
-                {
-                    for (int j = 0; j < sh.GetRow(i).Cells.Count; j++)
-                    {
-                        dataTable.Columns.Add("", typeof(string));
-                    }
-                }
-                dataTable.Rows.Add();
-                for (int j = 0; j < sh.GetRow(i).Cells.Count; j++)
-                {
-                    var cell = sh.GetRow(i).GetCell(j);
-                    if (cell != null)
-                    {
-                        switch (cell.CellType)
-                        {
-                            case NPOI.SS.UserModel.CellType.Numeric:
-                                {
-                                    dataTable.Rows[i][j] = sh.GetRow(i).GetCell(j).NumericCellValue;
-                                    break;
-                                }
-                            case NPOI.SS.UserModel.CellType.String:
-                                {
-                                    dataTable.Rows[i][j] = sh.GetRow(i).GetCell(j).StringCellValue;
-                                    break;
-                                }
-                            default: // if the cell type is not numeric or string
-                                {
-                                    dataTable.Rows[i][j] = "";
-                                    break;
-                                }
-                        }
-                    }
-                }
-
-                i++;
-            }
-
-            return dataTable;
-        }
-
-        public static T JsonRead<T>(string jsonFile)
-        {
-            string text = File.ReadAllText(jsonFile);
-            return JsonSerializer.Deserialize<T>(text);
-        }
-
-        public static List<string> GetAllFilesInFolderExt(string path, string extension)
-        {
-            List<string> files = new List<string>();
-            DirectoryInfo di = new DirectoryInfo(path);
-            foreach (FileInfo fi in di.GetFiles(extension, System.IO.SearchOption.TopDirectoryOnly))
-            {
-                files.Add(fi.FullName);
-            }
-            return files;
-        }
+            
 
         public static string Encrypt(string source, string key)
         {

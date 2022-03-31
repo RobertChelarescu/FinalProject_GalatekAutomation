@@ -11,10 +11,12 @@ namespace FinalProject_GalatekAutomation.Tests
         string url = Utils.FrameworkConstants.GetUrl();
 
         [TestCase("Motofierastraie", "MOTOFERASTRAU STIHL MS 500I 50CM 1,6MM 3/8″", "6,027.00 lei", "lei", "DOAR 1 PRODUS RAMAS IN STOC", "11472000000")]
-        [Test]
+        [Test, Order(4)]
 
         public void ProductsPage(string expectedCategorieProdus,string expectedMarca,string expectedPret,string expectedMoneda,string expectedStoc,string expectedCodProdus)
         {
+            testName = TestContext.CurrentContext.Test.Name;
+            _test = _extent.CreateTest(testName);
             _driver.Navigate().GoToUrl(url);
             MainPage mp = new MainPage(_driver);
             mp.AcceptCookie();

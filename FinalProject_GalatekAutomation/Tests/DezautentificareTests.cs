@@ -12,11 +12,13 @@ namespace FinalProject_GalatekAutomation.Tests
         string url = Utils.FrameworkConstants.GetUrl();
         [TestCase("teodor.paladi@yahoo.com","teodorpaladi")]
         [TestCase("florina.maria@yahoo.com", "parolatest1")]
-        [Test]
+        [Test, Order(2)]
 
         public void Dezautentificare(string expectedEmail,string expectedParola)
         {
-            _driver.Navigate().GoToUrl(url);
+
+            testName = TestContext.CurrentContext.Test.Name;
+            _test = _extent.CreateTest(testName); _driver.Navigate().GoToUrl(url);
             MainPage mp = new MainPage(_driver);
             mp.AcceptCookie();
             mp.MoveToLoginPage();

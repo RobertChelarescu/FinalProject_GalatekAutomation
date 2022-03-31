@@ -32,12 +32,15 @@ namespace FinalProject_GalatekAutomation.Tests.Authentication
                 index++;
             }
         }
-
-
-        [Test, TestCaseSource("GetCredentialsDataCsv")]
+        
+        [Category("Smoke")]
+        [Test, Order(1),TestCaseSource("GetCredentialsDataCsv")]
+        
         public void Autentificarea(string nume, string parola)
 
         {
+            testName = TestContext.CurrentContext.Test.Name;
+            _test = _extent.CreateTest(testName);
             _driver.Navigate().GoToUrl(url);
 
             MainPage mp = new MainPage(_driver);

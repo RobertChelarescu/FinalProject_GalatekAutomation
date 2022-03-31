@@ -12,14 +12,17 @@ namespace FinalProject_GalatekAutomation.Tests
 
         [TestCase("Motofierastraie")]
 
-        [Test]
+        [Test, Order(5)]
 
-0       public void AddToCartTest(string expectedCategorieProdus)
+       public void AddToCartTest(string expectedCategorieProdus)
         {
             _driver.Navigate().GoToUrl(url);
             MainPage mp = new MainPage(_driver);
             mp.AcceptCookie();
             mp.ClickToMotofierastraie();
+
+            testName = TestContext.CurrentContext.Test.Name;
+            _test = _extent.CreateTest(testName);
 
             ProductsPage pp = new ProductsPage(_driver);
             Assert.AreEqual(expectedCategorieProdus, "Motofierastraie");

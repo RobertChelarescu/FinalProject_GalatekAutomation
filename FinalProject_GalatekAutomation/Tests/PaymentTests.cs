@@ -15,9 +15,11 @@ namespace FinalProject_GalatekAutomation.Tests
         string url = FrameworkConstants.GetUrl();
 
         [TestCase("pal", "teodor", "td.ema", "00000", "dambovita", "targoviste", "Ibanesti", "2", "parolapaladi28","6422841256332220","TEODOR PALADI")]
-        [Test]
+        [Test, Order(8)]
         public void Payments(string nume, string prenume, string email, string telefon, string numejudet, string numeoras, string strada, string apartament, string parola)
         {
+            testName = TestContext.CurrentContext.Test.Name;
+            _test = _extent.CreateTest(testName);
             _driver.Navigate().GoToUrl(url);
             MainPage mp = new MainPage(_driver);
             mp.AcceptCookie();

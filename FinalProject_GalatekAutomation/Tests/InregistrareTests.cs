@@ -29,13 +29,15 @@ namespace FinalProject_GalatekAutomation.Tests
                 index++;
             }
         }
-
-        [Test, TestCaseSource("TestData\\testdatainregistrare.csv")]
+        [Category("Smoke")]
+        [Test, Order(3), TestCaseSource("TestData\\testdatainregistrare.csv")]
         
         public void Inregistrare(string email, string parola)
 
         {
-            _driver.Navigate().GoToUrl(url);
+
+            testName = TestContext.CurrentContext.Test.Name;
+            _test = _extent.CreateTest(testName); _driver.Navigate().GoToUrl(url);
 
             MainPage mp = new MainPage(_driver);
             mp.AcceptCookie();

@@ -13,29 +13,22 @@ namespace FinalProject_GalatekAutomation.Tests
 
         string url = Utils.FrameworkConstants.GetUrl();
 
-        private static IEnumerable<TestCaseData> GetCredentialsDataCsv()
+        private static IEnumerable<TestCaseData> GetCredentialsDataCsv3()
         {
-            string path = "TestData\\testdatacheckout.csv";
-
-            var index = 0;
-            using var reader = new StreamReader(path);
-            while (!reader.EndOfStream)
+            var csvData = Utils.Utils.GetDataTableFromCsv("TestData\\testdatacheckout.csv");
+            for (int i = 0; i < csvData.Rows.Count; i++)
             {
-                var line = reader.ReadLine();
-                var values = line.Split(',');
-                if (index > 0)
-                {
-                    yield return new TestCaseData(values[0].Trim(), values[1].Trim(),values[2].Trim(), values[3].Trim(), values[4].Trim(), values[5].Trim(), values[6].Trim(), values[7].Trim(), values[8].Trim());
-                }
-                index++;
+                yield return new TestCaseData(csvData.Rows[i].ItemArray);
             }
         }
 
 
-        [Test, TestCaseSource("GetCredentialsDataCsv")]
+        [Test, Order(6),TestCaseSource("GetCredentialsDataCsv3")]
 
         public void CheckOutTest(string nume, string prenume, string email, string telefon,string numejudet,string numeoras, string strada, string apartament, string parola)
         {
+            testName = TestContext.CurrentContext.Test.Name;
+            _test = _extent.CreateTest(testName);
             _driver.Navigate().GoToUrl(url);
             MainPage mp = new MainPage(_driver);
             mp.AcceptCookie();

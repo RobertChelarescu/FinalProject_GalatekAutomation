@@ -31,11 +31,13 @@ namespace FinalProject_GalatekAutomation.Tests
         }
 
 
-        [Test, TestCaseSource("GetCredentialsDataCsv")]
+        [Test, Order(7),TestCaseSource("GetCredentialsDataCsv")]
 
         public void ContactTest(string expectedContactatiLabelSelector,string nume,string email,string subiect,string mesaj)
         {
-            _driver.Navigate().GoToUrl(url);
+
+            testName = TestContext.CurrentContext.Test.Name;
+            _test = _extent.CreateTest(testName); _driver.Navigate().GoToUrl(url);
             MainPage mp = new MainPage(_driver);
             mp.AcceptCookie();
 
